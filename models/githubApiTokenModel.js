@@ -6,19 +6,24 @@ pamm.controllers = {};
 pamm.models = {};
 
 
+/* Nodejs require */
+pamm.deps.uuid = require("node-uuid");
+
 /* App require */
 pamm.config = rekuire("config/app");
 pamm.controllers.database = rekuire("controllers/databaseController");
 
-pamm.models.githubApiToken = function(accessToken, tokenType, scope){
+pamm.models.githubApiToken = function(userId, accessToken, tokenType, scope){
   var self = this;
 
+  self.userId = typeof userId === "boolean" && userId ? pamm.deps.uuid.v4() : userId;
   self.accessToken = accessToken !== undefined ? accessToken : "Not specified";
   self.tokenType = tokenType !== undefined ? tokenType : "Not specified";
   self.scope = scope !== undefined ? scope : "Not specified";
 
   self.dump = function(){
     var dump = {
+      "userId": self.userId,
       "accessToken": self.accessToken,
       "tokenType": self.tokenType,
       "scope": self.scope
@@ -34,11 +39,17 @@ pamm.models.githubApiToken = function(accessToken, tokenType, scope){
       }
     }
 
-    pamm.controllers.database.insertUnique(pamm.config.app.database.githubApiTokensCollection, self.dump(), { "accessToken": self.accessToken }, insertComplete);
+    pamm.controllers.database.insertUnique(pamm.config.app.database.githubApiTokensCollection, self.dump(), { "userId": self.userId }, insertComplete);
   };
 
-  self.deserlialize = function(data){
+  self.deserialize = function(data){
     var allDataPresent = true;
+
+    if(data.userId !== undefined){
+      self.userId = data.userId;
+    } else{
+      allDataPresent = false;
+    }
 
     if(data.accessToken !== undefined){
       self.accessToken = data.accessToken;

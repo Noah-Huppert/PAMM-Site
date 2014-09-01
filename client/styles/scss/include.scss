@@ -1,0 +1,47 @@
+/* Include Frameworks */
+@import "../../../bower/bourbon/dist/_bourbon";
+@import"../../../bower/bitters/app/assets/stylesheets/_base";
+@import"../../../bower/neat/app/assets/stylesheets/_neat";
+
+@import "refills/all";
+
+
+/* Bitters Grid Settings */
+$mobile: new-breakpoint(max-width 700px 4);
+
+/* Colors */
+$color-primary: #444D6C;//5DF2FF
+$color-secondary: #CB5A5E;//7134A2
+$color-light: #FAF8F2;
+$color-light-secondary: #FFF2F3;//FFE3E4
+
+.color-primary{
+  color: $color-primary;
+}
+
+.color-secondary{
+  color: $color-secondary;
+}
+
+.background-primary{
+  background: $color-primary;
+}
+
+.background-secondary{
+  background: $color-secondary;
+}
+
+/* Personal Reset */
+html, body{
+  @include texture(45deg, $color-light, $color-light, 40, 0);
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.site-page{
+  width: 100%;
+  height: 100%;
+  padding-top: 70px;
+}

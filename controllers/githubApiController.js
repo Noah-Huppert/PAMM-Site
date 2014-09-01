@@ -17,58 +17,14 @@ pamm.deps.request = require("request");
 
 /* App require */
 pamm.config = rekuire("config/app");
+pamm.controllers.database = rekuire("controllers/databaseController");
 pamm.helpers.merge = rekuire("helpers/mergeHelper");
 pamm.models.userSession = rekuire("models/userSessionModel");
 pamm.models.githubApiToken = rekuire("models/githubApiTokenModel");
+pamm.models.user = rekuire("models/userModel");
 
 
 pamm.controllers.githubApi.assembleUrl = function(data, givenFlags){
-  /*
-  flag = site
-  flag = github
-  flag = githubPlain
-  flag = api
-  flag = apiPlain
-  */
-
-/*
-  switch(flag){
-    case "site":
-      toReturn = pamm.config.app.siteUrl + urlId;
-      break;
-    case "github":
-      var githubBaseUrl = pamm.config.app.github.api.urls.base.url;
-      var githubUrls = pamm.config.app.github.api.urls;
-      toReturn = githubUrls[urlId] !== undefined ? githubBaseUrl + githubUrls[urlId].url : githubBaseUrl;
-      break;
-    case "githubPlain":
-      var githubPlainUrls = pamm.config.app.github.api.urls;
-      toReturn = githubPlainUrls[urlId] !== undefined ? githubPlainUrls[urlId].url : "";
-      break;
-    case "githubObject":
-        var githubObjectUrls = pamm.config.app.github.api.urls;
-        toReturn = githubPlainUrls[urlId] !== undefined ? githubObjectUrls : { "url": "", "method": "" };
-        break;
-    case "api":
-      var apiUrls = pamm.config.app.api.urls;
-      toReturn = apiUrls[urlId] !== undefined ? pamm.config.app.siteUrl + apiUrls[urlId] : pamm.config.app.siteUrl;
-      break;
-    case "apiPlain":
-      var apiPlainUrls = pamm.config.app.api.urls;
-      toReturn = apiPlainUrls[urlId] !== undefined ? "/" + apiPlainUrls[urlId] : "/";
-      break;
-    }
-*/
-
-  /* Flags
-  githubApi - Makes urlHost githubApi base, Makes urlObject from githubApi source
-  site - Makes urlHost site base, makes urlObject data
-  siteApi - Makes urlHost null, makes urlObject data
-
-  plain - Makes urlSource null, makes urlObject data
-  object - Makes urlHost null, returns url object
-  */
-
   var flags = givenFlags.split(" ");
 
   var urlHost = "";
@@ -93,10 +49,15 @@ pamm.controllers.githubApi.assembleUrl = function(data, givenFlags){
     }
   }
 
-  if(flags.indexOf("plain") !== -1){
+  if(flags.indexOf("object") === -1 && flags.indexOf("plain") !== -1){//!object plain
     toReturn = urlObject.url;
-  } else if(flags.indexOf("object") !== -1){
-    toReturn = urlObject;
+  } else if(flags.indexOf("object") !== -1){//object *
+    var newObject = {
+      "method": urlObject.method,
+      "url": flags.indexOf("plain") !== -1 ? urlObject.url : urlHost + urlObject.url
+    };
+
+    toReturn = newObject;
   } else{
     toReturn = urlHost + urlObject.url;
   }
@@ -147,49 +108,49 @@ pamm.controllers.githubApi.makeRequest = function(urlObject, headers, callback){
   };
 
   pamm.deps.request(options, callback);
+};
 
-  /*var url = pamm.deps.url.parse(urlObject.url);
+pamm.controllers.githubApi.auth = function(req, callback){
+  var userSession = req.session.userSession;
 
-  if(typeof headers === "function"){//No headers provided
-    callback = headers;
-    headers = {};
+  if(userSession === undefined){
+    callback(false, undefined, undefined);
+    return;
   }
 
-  var options = {
-    "host": url.host,
-    "path": url.path,
-    "method": urlObject.method,
-    "headers": pamm.helpers.merge.do(pamm.config.app.github.headers, headers)
-  };
+  var userSessionModel = new pamm.models.userSession();
 
-  pamm.deps.http.request(options, function(res){
-    var response = "";
+  userSessionModel.deserialize(userSession);
 
-    res.on("data", function(data){
-      response += data;
-    });
+  function foundUserSession(err, data){
+    if(data[0] !== undefined){
+      if(userSessionModel.userId === data[0].userId &&
+        userSessionModel.userSessionId === data[0].userSessionId &&
+        userSessionModel.userSessionSecret === data[0].userSessionSecret){
 
-    var req = res.on("end", function(){
-      var data = {};
+          pamm.controllers.database.findAsArray(pamm.config.app.database.usersCollection, { "userId": userSession.userId }, gotUserData);
+        } else{
+          callback(false, userSessionModel, undefined);
+        }
+    } else{
+      callback(false, userSessionModel, undefined);
+    }
+  }
 
-      if(response.length !== 0){
-        data = JSON.parse(response);
-      }
+  function gotUserData(err, data){
+    var userModel = new pamm.models.user();
 
-      callback(JSON.parse(data), res, err);
-    });
+    userModel.deserialize(data[0]);
 
+    callback(true, userSessionModel, userModel);
+  }
 
-    req.on('error', function(err) {
-      callback(undefined, undefined, err);
-    });
-
-  });*/
+  pamm.controllers.database.findAsArray(pamm.config.app.database.userSessionsCollection, { "userSessionId": userSessionModel.userSessionId }, foundUserSession);
 };
 
 pamm.controllers.githubApi.init = function(app){
   app.get(pamm.controllers.githubApi.assembleUrl("startAuthorization", "siteApi plain"), function(req, res){
-    var authorizeUrl = pamm.controllers.githubApi.assembleUrl("authorize", "githubApi object");
+    var authorizeUrl = pamm.controllers.githubApi.assembleUrl("authorize", "githubApi object plain");
 
     var state = pamm.deps.uuid.v4();
 
@@ -201,51 +162,99 @@ pamm.controllers.githubApi.init = function(app){
     };
 
     res.redirect(pamm.controllers.githubApi.assembleQueryParams(authorizeUrl.url, queryParams));
-    //res.json({ "url": pamm.deps.url.format(url), "query": url.query});
   });
 
   app.get(pamm.controllers.githubApi.assembleUrl("redirectUri", "siteApi plain"), function(req, res){
+    var user = {
+      "userId": undefined,
+      "userPermissions": []
+    };
 
-    var getAccessTokenUrlObject = pamm.controllers.githubApi.assembleUrl("getAccessToken", 'githubApi object');
+    var githubApiToken = {
+      "userId": undefined,
+      "accessToken": undefined,
+      "tokenType": undefined,
+      "scope": undefined
+    };
 
-    var queryParams = {
+    /* Get Access Token */
+    var getAccessTokenEntryPointUrl = pamm.controllers.githubApi.assembleUrl("getAccessToken", "githubApi plain");
+    var getAccessTokenQueryParams = {
       "client_id": pamm.config.secrets.github.clientId,
       "client_secret": pamm.config.secrets.github.clientSecret,
       "code": req.query.code,
       "redirect_uri": pamm.controllers.githubApi.assembleUrl("redirectUri", "siteApi")
     };
-
-    var url = pamm.controllers.githubApi.assembleQueryParams(getAccessTokenUrlObject.url, queryParams, true);
-
-    var callback = function(err, response, body){
+    var getAccessTokenUrlObject = pamm.controllers.githubApi.assembleQueryParams(getAccessTokenEntryPointUrl, getAccessTokenQueryParams, true);
+    var getAccessTokenRequestOptions = pamm.controllers.githubApi.assembleOptions(getAccessTokenUrlObject);
+    function getAccessTokenRequestComplete(err, response, body){
       if(response.statusCode === 200){
         var data = JSON.parse(body);
 
-        var githubApiToken = new pamm.models.githubApiToken(data.access_token, data.token_type, data.scope);
-        githubApiToken.serialize(githubApiTokenSerlialized);
+        githubApiToken.accessToken = data.access_token;
+        githubApiToken.tokenType = data.token_type;
+        githubApiToken.scope = data.scope;
+
+        getUserInfo();
+      } else{
+        res.json({ "error": body});
       }
-    };
+    }
+    pamm.deps.request.post(getAccessTokenRequestOptions, getAccessTokenRequestComplete);
 
-    var githubApiTokenSerlialized = function(err, data, unique, githubApiToken){
-      var userSession = new pamm.models.userSession();
-      userSession.serialize(userSessionSerialized);
-    };
 
-    var userSessionSerialized = function(err, data, unique, userSession){
-      req.session.userSession = userSession.dump();
-      res.redirect(pamm.config.app.siteUrl);
-    };
+    /* Get User data */
+    function getUserInfo(){
+      var getUserInfoEntryPointUrlObject = pamm.controllers.githubApi.assembleUrl("getUserInfo", "githubApi object");
+      var getUserInfoHeaders = {
+        "Authorization": "token " + githubApiToken.accessToken
+      };
+      var getUserInfoOptions = pamm.controllers.githubApi.assembleOptions(getUserInfoEntryPointUrlObject, getUserInfoHeaders);
+      pamm.deps.request.get(getUserInfoOptions, getUserInfoRequestComplete);
+    }
 
-    var options = pamm.controllers.githubApi.assembleOptions(url);
+    function getUserInfoRequestComplete(err, response, body){
+      if(response.statusCode === 200){
+        var data = JSON.parse(body);
 
-    pamm.deps.request.post(options, callback);
+        githubApiToken.userId = data.id;
+        user.userId = data.id;
+
+        saveUserData();
+      } else{
+        res.json({ "error": body});
+      }
+    }
+
+
+    /* Save all data */
+    function saveUserData(){
+      var userModel = new pamm.models.user(user.userId);
+      userModel.serialize(saveGithubApiToken);
+    }
+
+    function saveGithubApiToken(err, data, unique, userModel){
+      var githubApiTokenModel = new pamm.models.githubApiToken(user.userId, githubApiToken.accessToken, githubApiToken.tokenType, githubApiToken.scope);
+      githubApiTokenModel.serialize(createAndSaveUserSession);
+    }
+
+    function createAndSaveUserSession(err, data, unique, githubApiTokenModel){
+      var userSessionModel = new pamm.models.userSession(user.userId);
+      userSessionModel.serialize(storeUserSessionInSession);
+    }
+
+    function storeUserSessionInSession(err, data, unique, userSessionModel){
+      req.session.userSession = userSessionModel.dump();
+      redirectToHomePage();
+    }
+
+
+    /* Redirect to home page */
+    function redirectToHomePage(){
+      res.redirect(pamm.controllers.githubApi.assembleUrl("", "site"));
+    }
+
   });
-
-  app.get("/", function(req, res){
-    res.json(req.session);
-  });
-
-  return pamm.controllers.githubApi;
 };
 
 /* Export */

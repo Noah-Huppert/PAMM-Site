@@ -1,0 +1,38 @@
+{
+  "name": "PAMM-Site",
+  "version": "0.0.1",
+  "homepage": "https://github.com/Noah-Huppert/PAMM-Site",
+  "authors": [
+    "Noah Huppert <noahhuppert@gmail.com, someonewhoisnobody>"
+  ],
+  "description": "A website for easier managment of PA mods",
+  "main": "controllers/appController.js",
+  "keywords": [
+    "PAMM",
+    "PA",
+    "Mods",
+    "Website",
+    "Nodejs"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bitters": "~0.10.0",
+    "bourbon": "~4.0.2",
+    "neat": "~1.6.0",
+    "jquery": "~2.1.1",
+    "normalize-css": "~3.0.1",
+    "jquery.transit": "~0.9.12",
+    "knockoutjs": "~3.2.0",
+    "refills": "~0.0.2",
+    "polymer": "~0.4.0",
+    "core-elements": "Polymer/core-elements#~0.4.0",
+    "paper-elements": "Polymer/paper-elements#~0.4.0"
+  }
+}

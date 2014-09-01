@@ -1,0 +1,106 @@
+/*
+Syntax error: Undefined mixin 'background'.
+        on line 92 of client/styles/scss/refills/texture.scss, in `background'
+        from line 92 of client/styles/scss/refills/texture.scss, in `texture'
+        from line 108 of client/styles/scss/refills/texture.scss
+
+87:   "shinedotted.png"
+88:   "stacked_circles.png"
+89:   "noisy_grid_simple.png";
+90: 
+91:   @if ($inverted == 1) {
+92:     @include background(url("https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/textures/#{nth($texture-list, $texture-number)}"), linear-gradient($gradient-angle, $bg-color-1, $bg-color-2), center no-repeat $bg-color-1 scroll);
+93:   }
+94: 
+95:   @else {
+96:     @include background(url("https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/textures/inverted/#{nth($texture-list, $texture-number)}"), linear-gradient($gradient-angle, $bg-color-1, $bg-color-2), center no-repeat $bg-color-1 scroll);
+97:   }
+
+Backtrace:
+client/styles/scss/refills/texture.scss:92:in `background'
+client/styles/scss/refills/texture.scss:92:in `texture'
+client/styles/scss/refills/texture.scss:108
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:320:in `block in visit_mixin'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/stack.rb:98:in `block in with_mixin'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/stack.rb:121:in `with_frame'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/stack.rb:98:in `with_mixin'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:318:in `visit_mixin'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/base.rb:36:in `visit'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:152:in `block in visit'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/stack.rb:79:in `block in with_base'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/stack.rb:121:in `with_frame'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/stack.rb:79:in `with_base'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:152:in `visit'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/base.rb:52:in `map'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:161:in `block in visit_children'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:173:in `with_environment'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:160:in `visit_children'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/base.rb:36:in `block in visit'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:271:in `visit_if'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/base.rb:36:in `visit'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:152:in `block in visit'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/stack.rb:79:in `block in with_base'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/stack.rb:121:in `with_frame'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/stack.rb:79:in `with_base'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:152:in `visit'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:335:in `block (4 levels) in visit_mixin'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:335:in `map'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:335:in `block (3 levels) in visit_mixin'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:173:in `with_environment'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:335:in `block (2 levels) in visit_mixin'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:78:in `perform_arguments'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:330:in `block in visit_mixin'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/stack.rb:98:in `block in with_mixin'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/stack.rb:121:in `with_frame'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/stack.rb:98:in `with_mixin'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:318:in `visit_mixin'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/base.rb:36:in `visit'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:152:in `block in visit'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/stack.rb:79:in `block in with_base'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/stack.rb:121:in `with_frame'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/stack.rb:79:in `with_base'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:152:in `visit'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:389:in `block (2 levels) in visit_rule'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:389:in `map'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:389:in `block in visit_rule'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:173:in `with_environment'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:387:in `visit_rule'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/base.rb:36:in `visit'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:152:in `block in visit'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/stack.rb:79:in `block in with_base'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/stack.rb:121:in `with_frame'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/stack.rb:79:in `with_base'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:152:in `visit'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/base.rb:52:in `map'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:161:in `block in visit_children'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:173:in `with_environment'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:160:in `visit_children'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/base.rb:36:in `block in visit'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:180:in `visit_root'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/base.rb:36:in `visit'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:151:in `visit'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/visitors/perform.rb:8:in `visit'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/root_node.rb:36:in `css_tree'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/tree/root_node.rb:20:in `render'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/engine.rb:274:in `render'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/plugin/compiler.rb:484:in `update_stylesheet'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/plugin/compiler.rb:214:in `block in update_stylesheets'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/plugin/compiler.rb:208:in `each'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/plugin/compiler.rb:208:in `update_stylesheets'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/plugin/compiler.rb:462:in `on_file_changed'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.3.14/lib/sass/plugin/compiler.rb:324:in `block in watch'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/listen-2.7.9/lib/listen/listener.rb:276:in `call'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/listen-2.7.9/lib/listen/listener.rb:276:in `_process_changes'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/listen-2.7.9/lib/listen/listener.rb:233:in `block in _wait_for_changes'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/listen-2.7.9/lib/listen/listener.rb:216:in `loop'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/listen-2.7.9/lib/listen/listener.rb:216:in `_wait_for_changes'
+c:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/listen-2.7.9/lib/listen/listener.rb:312:in `block in _start_wait_thread'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Syntax error: Undefined mixin 'background'.\A         on line 92 of client/styles/scss/refills/texture.scss, in `background'\A         from line 92 of client/styles/scss/refills/texture.scss, in `texture'\A         from line 108 of client/styles/scss/refills/texture.scss\A \A 87:   \"shinedotted.png\"\A 88:   \"stacked_circles.png\"\A 89:   \"noisy_grid_simple.png\";\A 90: \A 91:   @if ($inverted == 1) {\A 92:     @include background(url(\"https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/textures/#{nth($texture-list, $texture-number)}\"), linear-gradient($gradient-angle, $bg-color-1, $bg-color-2), center no-repeat $bg-color-1 scroll);\A 93:   }\A 94: \A 95:   @else {\A 96:     @include background(url(\"https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/textures/inverted/#{nth($texture-list, $texture-number)}\"), linear-gradient($gradient-angle, $bg-color-1, $bg-color-2), center no-repeat $bg-color-1 scroll);\A 97:   }"; }

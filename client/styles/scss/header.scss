@@ -1,0 +1,52 @@
+@import "include";
+
+.site-header{
+  @include texture(45deg, $color-primary, $color-primary, 40, 0);
+  width: 100%;
+  position: fixed;
+
+  h1, .site-header-menu, .site-header-menu-item{
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    display: inline-block;
+  }
+
+  h1{
+    @include span-columns(6);
+    color: $color-light-secondary;
+  }
+
+  .site-header-menu-button{
+    display: none;
+  }
+
+  .site-header-menu{
+    @include span-columns(6);
+  }
+
+  .site-header-menu-item{
+    width: 100px;
+    color: $color-light-secondary;
+  }
+}
+
+@include media($mobile){
+  .site-header{
+    h1{
+      width: calc(100% - 44px);
+      margin: auto;
+    }
+
+    .site-header-menu-button{
+      margin-top: 10px;
+      float: left;
+      display: inline-block;
+      color: $light-gray;
+    }
+
+    .site-header-menu{
+      display: none;
+    }
+  }
+}

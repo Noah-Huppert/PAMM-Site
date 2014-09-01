@@ -47,6 +47,23 @@ pamm.controllers.database.collection = function(collectionName, callback){
   pamm.controllers.database.use(connectedToDatabase);
 };
 
+pamm.controllers.database.expireAfter = function(collectionName, expireAfter, callback){
+  function connectedToCollection(err, collection){
+    collection.ensureIndex({ "createdAt": 1 }, { expireAfterSeconds: expireAfter }, ensureIndexComplete);
+  }
+
+  function ensureIndexComplete(err){
+    if(!!err){
+      console.log("Error setting up expire time: ", err);
+    }
+    if(callback !== undefined){
+      callback(err);
+    }
+  }
+
+  pamm.controllers.database.collection(collectionName, connectedToCollection);
+};
+
 pamm.controllers.database.findAsArray = function(collectionName, findParams, callback){
   function connectedToCollection(err, collection){
     collection.find(findParams).toArray(foundDataAsArray);

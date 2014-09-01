@@ -17,13 +17,15 @@ pamm.config.parent = {
   "github": {
     "headers": {
       //"Accept": "application/vnd.github.v3+json"
-      "Accept": "application/json"
+      "Accept": "application/json",
+      "User-Agent": "Planetary Annihilation Mod Manager Website Api"
     },
     "api": {
       "urls": {
         "base": { "method": "GET", "url": "https://api.github.com/" },
         "authorize": { "method": "GET", "url": "https://github.com/login/oauth/authorize" },
-        "getAccessToken": { "method": "POST", "url": "https://github.com/login/oauth/access_token" }
+        "getAccessToken": { "method": "POST", "url": "https://github.com/login/oauth/access_token" },
+        "getUserInfo": { "method": "GET", "url": "user" }
       }
     },
     "scopes": "user:email,write:repo_hook"
@@ -31,13 +33,23 @@ pamm.config.parent = {
   "api": {
     "urls": {
       "startAuthorization": "/api/auth/connect",
-      "redirectUri": "/api/auth/oath2callback"
+      "redirectUri": "/api/auth/oath2callback",
+      "getUser": "/api/users/:uid"
     }
   },
   "database": {
     "host": "ds053198.mongolab.com:53198/pamm-site",
     "userSessionsCollection": "userSessions",
-    "githubApiTokensCollection": "githubApiTokens"
+    "githubApiTokensCollection": "githubApiTokens",
+    "usersCollection": "users"
+  },
+  "menus": {
+    "main": [
+      { "text": "Home", "link": "" },
+      { "text": "Mods", "link": "mods" },
+      { "text": "Login", "link": "api/auth/connect", "auth": "notLoggedIn" },
+      { "text": "Account", "link": "users/u/self", "auth": "loggedIn" }
+    ]
   },
   "port": 3000
 };
