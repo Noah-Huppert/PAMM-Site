@@ -1,0 +1,16 @@
+#intellij Idea
+.idea
+*.iml
+
+#Npm
+node_modules
+
+#Bower
+libs
+
+#JSX
+src/client/scripts/js
+
+#Scss
+src/client/styles/css
+.sass-cache

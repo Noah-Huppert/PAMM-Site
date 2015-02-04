@@ -1,0 +1,13 @@
+{
+  "name": "PAMM-Site",
+  "version": "0.0.1",
+  "homepage": "https://github.com/Noah-Huppert/PAMM-Site",
+  "authors": [
+    "Noah Huppert <noahhuppert@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "jquery": "~2.1.3"
+  }
+}

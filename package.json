@@ -1,0 +1,37 @@
+{
+  "name": "PAMM-Site",
+  "version": "0.0.1",
+  "description": "A website for managing PA mods",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Noah-Huppert/PAMM-Site.git"
+  },
+  "keywords": [
+    "PA"
+  ],
+  "author": "Noah Huppert",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Noah-Huppert/PAMM-Site/issues"
+  },
+  "homepage": "https://github.com/Noah-Huppert/PAMM-Site",
+  "dependencies": {
+    "express": "^4.11.2",
+    "express-handlebars": "^1.1.0",
+    "nodemon": "^1.3.6",
+    "react-tap-event-plugin": "^0.1.3",
+    "rekuire": "^0.1.9"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-browserify": "^3.3.0",
+    "grunt-contrib-sass": "^0.8.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "reactify": "^1.0.0"
+  }
+}
