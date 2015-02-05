@@ -1,0 +1,36 @@
+/* Material UI */
+@import "node_modules/material-ui/src/less/scaffolding.less";
+@import "node_modules/material-ui/src/less/components.less";
+
+/* Variables */
+@color-primary: #00BCD4;
+
+/* MUI Overides */
+.mui-toolbar{
+  background-color: @color-primary;
+}
+
+/* Common */
+body{
+  margin: 0;
+  padding: 0;
+  background: white;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Navbar */
+#Navbar_LoggedIn_Favicon{
+  width: 40px;
+  height: 40px;
+  margin-top: calc((@toolbar-height - 40px) / 2);
+  padding: 5px;
+  border-radius: 40px;
+  background: white;
+}
+
+#Navbar_LoggedIn_Username{
+  line-height: @toolbar-height;
+  margin-right: 10px;
+  font-size: 18px;
+  color: white;
+}

@@ -1,9 +1,9 @@
-var RaisedButton = mui.RaisedButton;
+var Navbar = require("./Navbar.jsx");
 
 var Main = React.createClass({
     render: function(){
         return(
-            <RaisedButton label="Super epic" primary={true} />
+            <Navbar />
         );
     }
 });

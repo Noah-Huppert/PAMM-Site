@@ -1,4 +1,5 @@
-/* Require */
+"use strict";
+
 var express = require("express");
 var exphbs = require("express-handlebars");
 var rekuire = require("rekuire");
@@ -21,7 +22,7 @@ app.use("/client", express.static(__dirname + "/client"));
 app.use("/libs", express.static(__dirname + "/../libs"));
 
 app.get("/", function(req, res){
-    res.render("home")
+    res.render("home");
 });
 
 app.listen(9000, function(){
