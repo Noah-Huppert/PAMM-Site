@@ -6,10 +6,17 @@ var cookieParser = require("cookie-parser");
 var rekuire = require("rekuire");
 var app = express();
 
+var pg = require("pg");
+var _ = require("underscore");
 var argv = require("optimist").argv;
+var GithubApi = require("github-api");
 
-var config = rekuire("shared/config")(argv.dev);
+var PGQuery = rekuire("server/PGQuery");
 
+/* General Setup */
+var config = rekuire("server/config");
+
+/* Setup Express */
 app.engine("hbs", exphbs({
   defaultLayout: "main",
   extname: ".hbs",
@@ -28,9 +35,23 @@ app.use("/libs", express.static(__dirname + "/../libs"));
 app.use(cookieParser({
   maxAge: 1209600000, //2 weeks
   httpOnly: false,
-  domain: config.url
+  domain: argv.dev ? "127.0.0.1:9000" : "https://pamm-site.herokuapp.com/"
 }));
 
+/* Database setup */
+var pgClient = new pg.Client({
+    user: config.secrets.db.user,
+    password: config.secrets.db.password,
+    database: config.secrets.db.database,
+    port: config.secrets.db.port,
+    host: config.secrets.db.host,
+    ssl: true
+});
+pgClient.connect();
+
+rekuire("server/PGMigrations")(pgClient);
+
+/* Express Routes */
 app.get("/", function(req, res) {
   res.cookie("foo", "bazz");
   res.render("home");

@@ -14,3 +14,6 @@ src/client/scripts/js
 #Scss
 src/client/styles/css
 .sass-cache
+
+#Secrets
+src/server/secrets.js
