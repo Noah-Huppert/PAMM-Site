@@ -17,8 +17,7 @@ var Navbar = React.createClass({
       return(
         <Toolbar>
           <ToolbarGroup key={0} float="right">
-            <RaisedButton label="Register" onMouseUp={this._registerButtonClick} />
-            <RaisedButton label="Login" primary={true} onMouseUp={this._loginButtonClick} />
+            <RaisedButton label="Login or Register" primary={true} onMouseUp={this._loginButtonClick} />
           </ToolbarGroup>
           <ToolbarGroup key={1} float="right">
             <span id="Navbar_LoggedIn_Username">{this.state.user.username}</span>
@@ -26,10 +25,6 @@ var Navbar = React.createClass({
           </ToolbarGroup>
         </Toolbar>
       );
-    },
-    _registerButtonClick: function(){
-      //TODO Implement Navbar._registerButtonClick
-      console.log("Navbar.Register");
     },
     _loginButtonClick: function(){
       //TODO Implement Navbar._loginButtonClick

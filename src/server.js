@@ -28,6 +28,7 @@ app.engine("hbs", exphbs({
   }
 }));
 
+app.set('json spaces', 2);
 app.set("view engine", "hbs");
 app.set("views", __dirname + "/views");
 app.use("/client", express.static(__dirname + "/client"));
@@ -35,7 +36,7 @@ app.use("/libs", express.static(__dirname + "/../libs"));
 app.use(cookieParser({
   maxAge: 1209600000, //2 weeks
   httpOnly: false,
-  domain: argv.dev ? "127.0.0.1:9000" : "https://pamm-site.herokuapp.com/"
+  domain: argv.dev ? "http://127.0.0.1:9000" : "https://pamm-site.herokuapp.com/"
 }));
 
 /* Database setup */
@@ -53,9 +54,10 @@ rekuire("server/PGMigrations")(pgClient);
 
 /* Express Routes */
 app.get("/", function(req, res) {
-  res.cookie("foo", "bazz");
   res.render("home");
 });
+
+rekuire("server/routes/routes")(express, app, argv, pgClient);
 
 app.listen(9000, function() {
   console.log("Listening on port 9000");

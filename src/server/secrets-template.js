@@ -1,3 +1,5 @@
+"use strict";
+
 /*
 INSTRUCTIONS
   - Rename this file to `secrets.js`

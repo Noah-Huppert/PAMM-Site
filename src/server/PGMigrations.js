@@ -1,3 +1,5 @@
+"use strict";
+
 var rekuire = require("rekuire");
 var _ = require("underscore");
 
@@ -24,7 +26,7 @@ module.exports = function(pgClient){
   var accessTokensTableCreateQuery = "CREATE TABLE IF NOT EXISTS <%= tableName %>(" +
                         "<%= accessToken %> CHAR(50) PRIMARY KEY NOT NULL," +
                         "<%= githubUserId %> CHAR(50) NOT NULL," +
-                        "<%= expiresOn %> TIME NOT NULL)";
+                        "<%= expiresOn %> TIMESTAMP NOT NULL)";
 
   var accessTokensTableCreateQueryData = _.extend({
     tableName: config.db.tables.accessTokens.name

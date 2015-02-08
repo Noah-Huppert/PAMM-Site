@@ -1,50 +1,35 @@
 "use strict";
 
+var rekuire = require("rekuire");
 var _ = require("underscore");
 
-function checkArg(arg, type) {
-  if (arg === undefined) {
-    return false;
-  } else if (type !== undefined && typeof arg !== type) {
-    return false;
-  }
-
-  return true;
-}
-
-function checkOptionalArg(arg, type) {
-  if (arg !== undefined && typeof arg !== type) {
-    return false;
-  }
-
-  return true;
-}
+var ArgValidator = rekuire("ArgValidator");
 
 function PGQuery(queryString, queryStringOptions, pgClient, onDoneCallback, onRowCallback, onErrorCallback) {
   var self = this;
 
   //Check args
-  if (!checkArg(queryString, "string")) {
+  if (!ArgValidator.checkArg(queryString, "string")) {
     throw "queryString must be defined and a string";
   }
 
-  if (!checkArg(queryStringOptions, "object")) {
+  if (!ArgValidator.checkArg(queryStringOptions, "object")) {
     queryStringOptions = {};
   }
 
-  if (!checkArg(pgClient)) {
+  if (!ArgValidator.checkArg(pgClient)) {
     throw "pgClient must be define";
   }
 
-  if (!checkOptionalArg(onDoneCallback, "function")) {
+  if (!ArgValidator.checkOptionalArg(onDoneCallback, "function")) {
     throw "onDoneCallback must be a function";
   }
 
-  if (!checkOptionalArg(onRowCallback, "function")) {
+  if (!ArgValidator.checkOptionalArg(onRowCallback, "function")) {
     throw "onRowCallback must be a function";
   }
 
-  if (!checkOptionalArg(onErrorCallback, "function")) {
+  if (!ArgValidator.checkOptionalArg(onErrorCallback, "function")) {
     throw "onErrorCallback must be a function";
   }
 
