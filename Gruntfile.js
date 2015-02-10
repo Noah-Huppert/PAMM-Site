@@ -14,10 +14,11 @@ module.exports = function(grunt) {
 		browserify: {
 			compile: {
 				files: {
-					"src/client/scripts/js/app.js": "src/client/scripts/jsx/**/*.jsx"
+					"src/client/scripts/js/app.js": "src/client/scripts/jsx/app.jsx"
 				},
 				options: {
-					transform: ["reactify"]
+					transform: ["reactify"],
+					external: ["React", "Backbone", "_", "mui"]
 				}
 			}
 		},

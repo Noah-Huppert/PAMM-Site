@@ -37,4 +37,24 @@ module.exports = function(pgClient){
       throw err;
     }
   });
+
+  //Create delete old Access Tokens trigger
+  var expireAccessTokensQueryString = "CREATE OR REPLACE FUNCTION expire_access_tokens() RETURNS void " +
+                                              "LANGUAGE plpgsql " +
+                                              "AS $$ " +
+                                      "BEGIN " +
+                                              "DELETE FROM <%= accessTokensTable %> WHERE <%= expiresOnKey %> < current_timestamp - INTERVAL '2 weeks'; " +
+                                      "END; " +
+                                      "$$;";
+
+  var expireAccessTokenQueryData = {
+    accessTokensTable: config.db.tables.accessTokens.name,
+    expiresOnKey: config.db.tables.accessTokens.columns.expiresOn
+  };
+
+  new PGQuery(expireAccessTokensQueryString, expireAccessTokenQueryData, pgClient, function(err){
+    if(err !== undefined){
+      throw err;
+    }
+  });
 };

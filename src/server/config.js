@@ -46,6 +46,9 @@ module.exports = {
       }
     }
   },
+  log:{
+    file: "main.log"
+  },
   npm: {
     request: {
       headers: {

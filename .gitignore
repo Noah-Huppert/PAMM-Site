@@ -17,3 +17,6 @@ src/client/styles/css
 
 #Secrets
 src/server/secrets.js
+
+#Logs
+*.log

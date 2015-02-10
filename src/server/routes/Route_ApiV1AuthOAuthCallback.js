@@ -14,10 +14,6 @@ var PGQuery = rekuire("../PGQuery");
 
 request = request.defaults(config.npm.request);
 
-function returnWithError(res, err){
-  res.redirect("/?error=" + err.code);
-}
-
 function exchangeGHAuthCode(req, res, pgClient, githubAuthCode){
   if(!ArgValidator.checkArg(githubAuthCode, "string")){
     throw "githubAuthCode must be defined and be a string";
@@ -45,13 +41,13 @@ function onExchangeGHAuthCodeRequestComplete(res, err, pgClient, result, body){
     //Retrieve and check Github Access Token
     var githubAccessToken = bodyData.access_token;
     if(githubAccessToken === undefined){
-      returnWithError(res, errors.api.v1.auth.oauthCallback.badAccessToken);
+      errors.redirectWithError(res, errors.api.v1.auth.oauthCallback.badAccessToken);
       return;
     }
 
     getGHUserLinkedWithGHAccessToken(res, pgClient, githubAccessToken);
   } else{
-    returnWithError(res, errors.api.v1.auth.oauthCallback.authCodeExchangeFail);
+    errors.redirectWithError(res, errors.api.v1.auth.oauthCallback.authCodeExchangeFail);
   }
 }
 
@@ -83,13 +79,13 @@ function onGetGHUserLinkedWithGHAccessTokenRequestComplete(res, pgClient, github
     //Retrieve and check Github User Id
     var githubUserId = bodyData.login;
     if(githubUserId === undefined){
-      returnWithError(res, errors.api.v1.auth.oauthCallback.badUserData);
+      errors.redirectWithError(res, errors.api.v1.auth.oauthCallback.badUserData);
       return;
     }
 
     createOrUpdateUser(res, pgClient, githubUserId, githubAccessToken);
   } else{
-    returnWithError(res, errors.api.v1.auth.oauthCallback.badUserData);
+    errors.redirectWithError(res, errors.api.v1.auth.oauthCallback.badUserData);
   }
 }
 
@@ -136,8 +132,7 @@ function onCreateOrUpdateUserQueryComplete(res, pgClient, githubUserId, err, res
   if(err === undefined){
     generateSiteAccessToken(res, pgClient, githubUserId);
   } else {
-    console.log(err);
-    returnWithError(res, errors.api.v1.auth.oauthCallback.createOrUpdateUserSQLError);
+    errors.redirectWithError(res, errors.api.v1.auth.oauthCallback.createOrUpdateUserSQLError, {sqlErr: err});
   }
 }
 
@@ -170,14 +165,15 @@ function saveSiteAccessToken(res, pgClient, githubUserId, siteAccessToken, siteA
 
   var sqlQueryString = "INSERT INTO <%= accessTokensTable %> " +
                                                         "(<%= accessTokenKey %>, <%= githubUserIdKey %>, <%= expiresOnKey %>) " +
-                                                        "SELECT '<%= accessToken %>', '<%= githubUserId %>', '<%= expiresOn %>'";
+                                                        "SELECT '<%= accessToken %>', '<%= githubUserId %>', '<%= expiresOn %>'; " +
+                        "SELECT expire_access_tokens();";
 
-  //2004-10-19 10:23
   var expiresOn = siteAccessTokenExpiresOn.getFullYear() + "-" +
-                  siteAccessTokenExpiresOn.getMonth() + "-" +
+                  siteAccessTokenExpiresOn.getMonth() + 1 + "-" +
                   siteAccessTokenExpiresOn.getDate() + " " +
                   siteAccessTokenExpiresOn.getHours() + ":" +
-                  siteAccessTokenExpiresOn.getMinutes();
+                  siteAccessTokenExpiresOn.getMinutes() + ":" +
+                  siteAccessTokenExpiresOn.getSeconds();
 
   var sqlQueryData = {
     accessTokensTable: config.db.tables.accessTokens.name,
@@ -200,7 +196,7 @@ function onSaveSiteAccessTokenComplete(res, siteAccessToken, err, result, result
     res.redirect("/");
   } else{
     console.log(err);
-    returnWithError(res, errors.api.v1.auth.oauthCallback.saveSiteAccessTokenSQLError);
+    errors.redirectWithError(res, errors.api.v1.auth.oauthCallback.saveSiteAccessTokenSQLError);
   }
 }
 
@@ -216,14 +212,14 @@ function routeHandler(req, res, options){
     //Retrive and check Github Auth Code
     var githubAuthCode = req.query.code;
     if(githubAuthCode === undefined){
-      returnWithError(res, errors.api.v1.auth.oauthCallback.badAuthCode);
+      errors.redirectWithError(res, errors.api.v1.auth.oauthCallback.badAuthCode);
       return;
     }
 
     exchangeGHAuthCode(req, res, options.pgClient, githubAuthCode);
   } else{//Bad state
     res.clearCookie("state");
-    returnWithError(res, errors.api.v1.auth.oauthCallback.badState);
+    errors.redirectWithError(res, errors.api.v1.auth.oauthCallback.badState);
   }
 }
 
