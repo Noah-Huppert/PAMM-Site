@@ -1,8 +1,12 @@
 "use strict";
 
-function createReactRoutePage(options){
-  if(options.route === undefined || typeof options.route !== "string"){
-    throw "options.route must be defined and a string";
+function createRouteClass(options){
+  if(options.route !== undefined && options.notRoute !== undefined){
+    throw "options.route and options.notRoute cannot both be defined at the same time";
+  }
+
+  if((options.route === undefined || typeof options.route !== "string") && (options.notRoute === undefined || typeof options.notRoute !== "string")){
+    throw "options.route OR options.notRoute must be defined and a string";
   }
 
   var _options = _.clone(options);
@@ -27,7 +31,8 @@ function createReactRoutePage(options){
     }
 
     state.route = _options.route;
-    state.routeDisplay = "";
+    state.notRoute = _options.notRoute;
+    state.routeDisplay = "inherit";
     state.routeParams = {};
 
     return state;
@@ -39,14 +44,20 @@ function createReactRoutePage(options){
     App.Router.on("route", function(route, params){
       params = params !== undefined ? params : params;
 
-      if(route === self.state.route && self.state.routeDisplay !== "" && params !== self.state.routeParams){
+      var matchesRoute = (self.state.route !== undefined && route === self.state.route);
+      var matchesNotRoute = (self.state.notRoute !== undefined && route === self.state.notRoute);
+
+      var needsToShow = (self.state.routeDisplay !== "inherit");
+      var needsToHide = (self.state.routeDisplay !== "none");
+
+      if((matchesRoute || !matchesNotRoute) && needsToShow){
         self.setState({
-          routeDisplay: "",
+          routeDisplay: "inherit",
           routeParams: params
         });
-      } else if(route !== self.state.route && self.state.routeDisplay !== "none"){
+      } else if((!matchesRoute || matchesNotRoute) && needsToHide){
         self.setState({
-          routeDisplay: "none",
+          routeDisplay: "none"
         });
       }
     });
@@ -67,4 +78,4 @@ function createReactRoutePage(options){
   return React.createClass(options);
 };
 
-module.exports = createReactRoutePage;
+module.exports = createRouteClass;

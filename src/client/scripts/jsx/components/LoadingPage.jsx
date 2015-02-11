@@ -1,7 +1,7 @@
-var LoadingPage = App.createRoutePage({
+var LoadingPage = App.createRouteClass({
   route: "loading",
   render: function(){
-    return <div>Loading</div>;
+    return <div className="LoadingPage">Loading</div>;
   }
 });
 

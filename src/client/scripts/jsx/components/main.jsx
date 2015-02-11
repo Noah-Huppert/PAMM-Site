@@ -1,12 +1,12 @@
 var LoadingPage = require("./LoadingPage.jsx");
-var Navbar = require("./Navbar.jsx");
+var MainContainerPage = require("./MainContainerPage.jsx");
 
 var Main = React.createClass({
     render: function(){
         return(
           <div>
             <LoadingPage />
-            <Navbar />
+            <MainContainerPage />
           </div>
         );
     }

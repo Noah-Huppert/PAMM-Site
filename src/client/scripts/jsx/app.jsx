@@ -11,18 +11,23 @@ window.mui = require("material-ui");
 window.Request = require("request");
 
 var injectTagEventPlugin = require("react-tap-event-plugin");
-var createReactRoutePage = require("./mixins/createReactRoutePage.jsx");
+var createRouteClass = require("./mixins/createRouteClass.jsx");
 
 window.App = {
   Router: require("./routes/Router.jsx"),
-  createRoutePage: createReactRoutePage
+  createRouteClass: createRouteClass,
+  Models: {}
 };
+
+//TODO Make own event and router system
 
 /* Elements */
 var Main = require("./components/Main.jsx");
 
+App.Router.on("route", function(route){
+  console.log(route);
+});
+
 $(document).ready(function(){
     React.render(<Main />, document.body);
-
-    App.Router.navigate("loading", {trigger: true, replace: true});
 });

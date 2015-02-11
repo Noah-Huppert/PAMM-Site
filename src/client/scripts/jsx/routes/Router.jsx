@@ -2,9 +2,10 @@
 
 var Router = Backbone.Router.extend({
   routes: {
-    "loading": "loading",
-    "foo": "foo"
-  }
+    "": "index",
+    "loading": "loading"
+  },
+  index: require("./Route_Index.jsx")
 });
 
 var AppRouter = new Router();
