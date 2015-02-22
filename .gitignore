@@ -1,0 +1,12 @@
+#Npm
+node_modules
+
+#Compiled
+# -- ES6
+js
+
+# -- Less
+css
+
+#Server Secrets
+secrets-template.js
