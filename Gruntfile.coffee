@@ -11,7 +11,9 @@ module.exports = (grunt) ->
       for task in tasks
         newTasks.push "newer:" + task
 
-    return newTasks
+      return newTasks
+    else
+      return tasks
 
 
   grunt.initConfig
@@ -50,6 +52,7 @@ module.exports = (grunt) ->
     nodemon:
       server:
         script: "<%= pkg.main %>"
+        watch: "src/server/**/*.js"
 
     watch:
       options:
