@@ -1,3 +1,5 @@
+import q from "q";
+
 function ApiAuth(github, db, config, secrets){
   var self = this;
 

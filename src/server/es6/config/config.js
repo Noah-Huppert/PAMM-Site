@@ -1,19 +1,38 @@
 var config = {
   oio: {
     collections: {
-      users: "users"
+      users: "users",
+      accessTokens: "accessTokens"
     }
   },
   routes: {
-    auth: {
-      connect: "/api/auth/connect",
-      callback: "/api/auth/callback"
+    api: {
+      _root: "/api",
+      v1: {
+        _root: "/v1",
+        auth: {
+          _root: "/auth",
+          connect: "/connect",
+          callback: "/callback"
+        }
+      }
     }
   },
   errors: {
-    badGhState: 0,
-    badGhTokenResp: 1,
-    oioSaveUserError: 2
+    api: {
+      v1: {
+        auth: {
+          callback: {
+            badGhState: 0,
+            badGhCode: 1,
+            ghLoginFail: 2,
+            ghUserInfoFail: 3,
+            ghUserInfoSaveFail: 4,
+            siteAccessTokenSaveFail: 5
+          }
+        }
+      }
+    }
   }
 };
 
