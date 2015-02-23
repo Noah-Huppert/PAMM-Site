@@ -28,6 +28,7 @@ app.use(cookieParser());
 /* Routes */
 import ApiAuthConnect from "./routes/ApiAuthConnect.js";
 import ApiAuthCallback from "./routes/ApiAuthCallback.js";
+import ApiAuthAccessToken from "./routes/ApiAuthAccessToken.js";
 
 app.get("/", function(req, res){
   res.sendFile(`${clientDirPath}/views/index.html`);
@@ -39,6 +40,10 @@ app.get(RouteBuilder("api.v1.auth.connect", config), function(req, res){
 
 app.get(RouteBuilder("api.v1.auth.callback", config), function(req, res){
   ApiAuthCallback(req, res, config, db, github);
+});
+
+app.get(RouteBuilder("api.v1.auth.accessToken", config), function(req, res){
+  ApiAuthAccessToken(req, res, config, db);
 });
 
 app.listen(process.env.PORT || 9000, function(){

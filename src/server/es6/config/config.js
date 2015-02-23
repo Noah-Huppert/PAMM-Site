@@ -13,7 +13,8 @@ var config = {
         auth: {
           _root: "/auth",
           connect: "/connect",
-          callback: "/callback"
+          callback: "/callback",
+          accessToken: "/access_token"
         }
       }
     }
@@ -29,6 +30,10 @@ var config = {
             ghUserInfoFail: 3,
             ghUserInfoSaveFail: 4,
             siteAccessTokenSaveFail: 5
+          },
+          accessToken: {
+            badAccessToken: 6,
+            accessTokenQueryFail: 7
           }
         }
       }
